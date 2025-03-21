@@ -1,0 +1,225 @@
+---
+AccessModifierOffset: -2
+AlignAfterOpenBracket: Align
+AlignArrayOfStructures: None
+AlignConsecutiveAssignments:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+  AlignCompound: true
+  PadOperators: true
+AlignConsecutiveBitFields:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+AlignConsecutiveDeclarations:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+  # AlignFunctionDeclarations: true - clang-format 19
+  AlignFunctionPointers: true
+AlignConsecutiveMacros:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+AlignConsecutiveShortCaseStatements:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: false
+  # AlignCaseArrows: true - clang-format 19
+  AlignCaseColons: false
+# AlignConsecutiveTableGenBreakingDAGArgColons: ? - clang-format 19
+# AlignConsecutiveTableGenCondOperatorColons: ? - clang-format 19
+# AlignConsecutiveTableGenDefinitionColons: ? - clang-format 19
+AlignEscapedNewlines: Left
+AlignOperands: AlignAfterOperator
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 1
+AllowAllArgumentsOnNextLine: true
+AllowAllParametersOfDeclarationOnNextLine: true
+AllowBreakBeforeNoexceptSpecifier: OnlyWithParen
+AllowShortBlocksOnASingleLine: Always
+# AllowShortCaseExpressionOnASingleLine: true - clang-format 19
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortCompoundRequirementOnASingleLine: true
+AllowShortEnumsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: All
+AllowShortIfStatementsOnASingleLine: AllIfsAndElse
+AllowShortLambdasOnASingleLine: All
+AllowShortLoopsOnASingleLine: true
+# AllowShortNamespacesOnASingleLine: true - clang-format 20
+AlwaysBreakBeforeMultilineStrings: false
+AttributeMacros: []
+BinPackArguments: false
+# BinPackLongBracedList: true - clang-format 21
+BinPackParameters: true
+BitFieldColonSpacing: Both
+# BraceWrapping: Redundant - See BreakBeforeBraces
+BracedInitializerIndentWidth: 2
+BreakAdjacentStringLiterals: false
+BreakAfterAttributes: Leave
+# BreakAfterReturnType: Automatic - clang-format 19
+BreakArrays: false
+BreakBeforeBinaryOperators: All
+BreakBeforeBraces: Attach
+BreakBeforeConceptDeclarations: Always
+BreakBeforeInlineASMColon: OnlyMultiline
+# BreakBeforeTemplateCloser: true - clang-format 21
+BreakBeforeTernaryOperators: true
+# BreakBinaryOperations: Never - clang-format 20
+BreakConstructorInitializers: BeforeComma
+# BreakFunctionDefinitionParameters: false - clang-format 19
+BreakInheritanceList: BeforeComma
+BreakStringLiterals: true
+# BreakTemplateDeclarations: Yes - clang-format 19
+ColumnLimit: 100
+CommentPragmas: ""
+CompactNamespaces: false
+ConstructorInitializerIndentWidth: 2
+ContinuationIndentWidth: 2
+Cpp11BracedListStyle: false
+DerivePointerAlignment: false
+DisableFormat: false
+EmptyLineAfterAccessModifier: Never
+EmptyLineBeforeAccessModifier: LogicalBlock
+# ExperimentalAutoDetectBinPacking: false - Experimental
+FixNamespaceComments: true
+ForEachMacros: []
+IfMacros: []
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex:           '^<ext/.*\.h>'
+    Priority:        2
+    SortPriority:    0
+    CaseSensitive:   false
+  - Regex:           '^<.*\.h>'
+    Priority:        1
+    SortPriority:    0
+    CaseSensitive:   false
+  - Regex:           '^<.*'
+    Priority:        2
+    SortPriority:    0
+    CaseSensitive:   false
+  - Regex:           '.*'
+    Priority:        3
+    SortPriority:    0
+    CaseSensitive:   false
+IncludeIsMainRegex: '([-_](test|unittest))?$'
+IncludeIsMainSourceRegex: ''
+IndentAccessModifiers: false
+IndentCaseBlocks: false
+IndentCaseLabels: true
+# IndentExportBlock: false - clang-20
+IndentExternBlock: NoIndent
+IndentGotoLabels: false
+IndentPPDirectives: AfterHash
+IndentRequiresClause: true
+IndentWidth: 2
+IndentWrappedFunctionNames: false
+InsertBraces: false
+InsertNewlineAtEOF: true
+# InsertTrailingCommas: None - JavaScript only
+IntegerLiteralSeparator:
+  Binary: 0
+  Decimal: 3
+  DecimalMinDigits: 5
+  Hex: -1
+# JavaImportGroups: ? - Java only
+# JavaScriptQuotes: ? - JavaScript Only
+# JavaScriptWrapImports: ? - JavaScript Only
+# KeepEmptyLines: - clang-format 19
+#   AtEndOfFile: false
+#   AtStartOfBlock: false
+#   AtStartOfFile: false
+KeepEmptyLinesAtEOF: false # DEPRECATED in clang-format 19, see KeepEmptyLines `AtEndOfFile`
+KeepEmptyLinesAtTheStartOfBlocks: false # DEPRECATED in clang-format 19, see KeepEmptyLines `AtStartOfBlock`
+# KeepFormFeed: ? - clang-format 20
+LambdaBodyIndentation: Signature
+LineEnding: LF
+MacroBlockBegin: ""
+MacroBlockEnd: ""
+Macros: []
+# MainIncludeChar: Quote - clang-format 19
+MaxEmptyLinesToKeep: 1
+NamespaceIndentation: None
+NamespaceMacros: []
+# ObjCBinPackProtocolList: ? - Objective-C Only
+# ObjCBlockIndentWidth: ? - Objective-C Only
+# ObjCBreakBeforeNestedBlockParam: ? - Objective-C Only
+# ObjCPropertyAttributeOrder: ? - Objective-C Only
+# ObjCSpaceAfterProperty: ? - Objective-C Only
+# ObjCSpaceBeforeProtocolList: ? - Objective-C Only
+PPIndentWidth: 1
+PackConstructorInitializers: NextLine
+PenaltyBreakAssignment: 2
+PenaltyBreakBeforeFirstCallParameter: 1
+# PenaltyBreakBeforeMemberAccess: ? - clang-format 20
+PenaltyBreakComment: 300
+PenaltyBreakFirstLessLess: 120
+PenaltyBreakOpenParenthesis: 0
+PenaltyBreakScopeResolution: 3
+PenaltyBreakString: 1000
+PenaltyBreakTemplateDeclaration: 10
+PenaltyExcessCharacter: 1000000
+PenaltyIndentedWhitespace: 0
+PenaltyReturnTypeOnItsOwnLine: 200
+PointerAlignment: Left
+QualifierAlignment: Custom
+QualifierOrder: ['friend', 'static', 'inline', 'volatile', 'restrict', 'constexpr', 'const', 'type']
+ReferenceAlignment: Left
+ReflowComments: true
+RemoveBracesLLVM: false # WARNING - This option will be renamed and expanded to support other styles
+# RemoveEmptyLinesInUnwrappedLines: true - clang-format 20
+RemoveParentheses: Leave
+RemoveSemicolon: false
+RequiresClausePosition: SingleLine
+RequiresExpressionIndentation: OuterScope
+SeparateDefinitionBlocks: Always
+ShortNamespaceLines: 0
+SkipMacroDefinitionBody: false
+SortIncludes: CaseSensitive
+# SortJavaStaticImport: Before - Java only
+SortUsingDeclarations: LexicographicNumeric
+SpaceAfterCStyleCast: false
+SpaceAfterLogicalNot: false
+SpaceAfterTemplateKeyword: false
+SpaceAroundPointerQualifiers: Default
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeCaseColon: false
+SpaceBeforeCpp11BracedList: false
+SpaceBeforeCtorInitializerColon: true
+SpaceBeforeInheritanceColon: true
+SpaceBeforeJsonColon: false
+SpaceBeforeParens: ControlStatementsExceptControlMacros
+SpaceBeforeRangeBasedForLoopColon: true
+SpaceBeforeSquareBrackets: false
+SpaceInEmptyBlock: false
+SpacesBeforeTrailingComments: 2
+SpacesInAngles: Never
+SpacesInContainerLiterals: false
+SpacesInLineCommentPrefix:
+  Minimum: 1
+  Maximum: -1
+SpacesInParens: Custom
+SpacesInParensOptions:
+  # ExceptDoubleParentheses: true - clang-format 19
+  InConditionalStatements: false
+  InCStyleCasts: false
+  InEmptyParentheses: false
+  Other: false
+SpacesInSquareBrackets: false
+Standard: c++20
+StatementAttributeLikeMacros: []
+StatementMacros: []
+TabWidth: 2
+# TableGenBreakInsideDAGArg: ? - clang-format 19
+# TableGenBreakingDAGArgOperators: ? - clang-format 19
+# TemplateNames: [] - clang-format 20
+TypeNames: []
+TypenameMacros: []
+UseTab: Never
+# VariableTemplates: [] - clang-format 20
+# VerilogBreakBetweenInstancePorts: ? - Verilog Only
+WhitespaceSensitiveMacros: []
+# WrapNamespaceBodyWithEmptyLines: Never - clang-format 20

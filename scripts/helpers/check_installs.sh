@@ -4,6 +4,7 @@ set -euo pipefail
 
 declare -a PROGRAMS=(
   "git"
+  "clang-format"
 )
 
 for prog in "${PROGRAMS[@]}"
