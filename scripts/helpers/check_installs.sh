@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+OS="$1" # Checked in 'setup.sh', assumed to be valid here, maybe used later
+
 declare -a PROGRAMS=(
   "git"
   "clang-format"
