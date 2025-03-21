@@ -1,0 +1,9 @@
+[init]
+  defaultBranch = master
+[user]
+  email = justinottesen@gmail.com
+  name = Justin Ottesen
+[push]
+  autoSetupRemote = true
+[core]
+  editor = nvim
