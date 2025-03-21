@@ -10,3 +10,4 @@ Once I get started, I will document the setup here.
 ## Required Programs
 1. git
 2. clang-format
+3. clang-tidy
