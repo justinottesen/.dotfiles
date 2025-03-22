@@ -5,8 +5,9 @@ set -euo pipefail
 # OS="$1" # Checked in 'setup.sh', assumed to be valid here, maybe used later
 
 declare -a PROGRAMS=(
-  # Not sure how you even have this without git
+  # Required for setup
   "git"
+  "stow"
   # General development
   "tmux"
   "zsh"
