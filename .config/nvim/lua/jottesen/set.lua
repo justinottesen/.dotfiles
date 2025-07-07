@@ -6,3 +6,4 @@ vim.g.netrw_bufsettings = 'noma nomod nu nornu nobl nowrap ro' -- Black magic fo
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
