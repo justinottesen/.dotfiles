@@ -1,7 +1,7 @@
 [init]
-	defaultBranch = master
+    defaultBranch = master
 [user]
-	email = justinottesen@gmail.com
-	name = Justin Ottesen
+    email = justinottesen@gmail.com
+    name = Justin Ottesen
 [push]
-	autoSetupRemote = true
+    autoSetupRemote = true
