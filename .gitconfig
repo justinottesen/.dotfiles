@@ -6,4 +6,4 @@
 [push]
     autoSetupRemote = true
 [core]
-	editor = nvim
+    editor = nvim
