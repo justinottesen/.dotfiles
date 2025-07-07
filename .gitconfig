@@ -5,3 +5,5 @@
     name = Justin Ottesen
 [push]
     autoSetupRemote = true
+[core]
+	editor = nvim
