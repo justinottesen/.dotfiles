@@ -18,7 +18,7 @@ return {
         },
         appearance = { nerd_font_variant = "mono" },
         completion = {
-            documentation = { auto_show = false, auto_show_delay_ms, 500 }
+            documentation = { auto_show = false, auto_show_delay_ms = 500 }
         },
         sources = {
             default = { "lsp", "path", "snippets", "lazydev" },
@@ -28,7 +28,10 @@ return {
         },
 
         snippets = { preset = "luasnip" },
-        fuzzy = { implemetation = "prefer_rust_with_warning" },
+        fuzzy = {
+            implemetation = "prefer_rust_with_warning",
+            build = "cargo build --release"
+        },
         signature = { enabled = true }
     }
 }
