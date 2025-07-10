@@ -1,0 +1,29 @@
+CompileFlags:
+  CompilationDatabase:
+    Paath: build
+
+Diagnostics:
+  ClangTidy:
+    Add: [
+      "bugprone-*",
+      "cert-*",
+      "clang-analyzer-*",
+      "concurrency-*",
+      "cppcoreguidelines-*",
+      "google-*",
+      "hicpp-*",
+      "misc-*",
+      "modernize-*",
+      "performance-*",
+      "readability-*"
+    ]
+  DisplayStyle: Detailed
+
+InlayHints:
+  Enable: true
+  ParameterNames: true
+  DeducedTypes: true
+
+Formatting:
+  Style: file
+

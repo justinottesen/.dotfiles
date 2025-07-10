@@ -15,3 +15,10 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 # Set default editor to neovim
 export VISUAL="nvim"
 export EDITOR="$VISUAL"
+
+# Use Ninja by default for CMake
+export CMAKE_GENERATOR=Ninja
+
+# Use clang instead of gnu
+export CC=clang
+export CXX=clang++
