@@ -1,6 +1,7 @@
 -- Line number settings
 vim.opt.number = true
-vim.g.netrw_bufsettings = 'noma nomod nu nornu nobl nowrap ro' -- Black magic for line numbers in netrw
+vim.opt.relativenumber = true
+vim.g.netrw_bufsettings = "noma nomod nu rnu nobl nowrap ro" -- Black magic for line numbers in netrw
 vim.opt.cursorline = true
 vim.opt.scrolloff = 10
 
