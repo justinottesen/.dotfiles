@@ -1,0 +1,10 @@
+{
+    "layer": "top",
+    "modules-center": ["clock"],
+
+    "clock": {
+        "format": "{:%Y-%m-%d %H:%M:%S}",
+        "tooltip-format": "{:%A, %B, %d %Y}",
+        "interval": 1
+    }
+}
