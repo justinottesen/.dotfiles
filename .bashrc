@@ -16,8 +16,9 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 export VISUAL="nvim"
 export EDITOR="$VISUAL"
 
-# Use Ninja by default for CMake
+# Set Cmake preferences
 export CMAKE_GENERATOR=Ninja
+export CMAKE_EXPORT_COMPILE_COMMANDS=ON
 
 # Use clang instead of gnu
 export CC=clang
