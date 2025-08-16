@@ -1,6 +1,5 @@
 CompileFlags:
-  CompilationDatabase:
-    Paath: build
+  Add: [-Wall, -Wextra, -Wpedantic, -Werror]
 
 Diagnostics:
   ClangTidy:
@@ -20,13 +19,4 @@ Diagnostics:
     Remove: [
       "google-readability-todo"
     ]
-  DisplayStyle: Detailed
-
-InlayHints:
-  Enable: true
-  ParameterNames: true
-  DeducedTypes: true
-
-Formatting:
-  Style: file
 
