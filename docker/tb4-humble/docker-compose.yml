@@ -1,0 +1,17 @@
+services:
+  sc-demo-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sc-demo-dev
+    network_mode: host
+    ipc: host
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${HOME}/.gitconfig:/home/jottesen/.gitconfig:ro
+      - ${HOME}/.ssh:/home/jottesen/.ssh:ro
+      - ${HOME}/.config/nvim:/home/jottesen/.config/nvim:rw
+    tty: true
+    stdin_open: true
