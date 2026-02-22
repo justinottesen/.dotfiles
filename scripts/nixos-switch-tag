@@ -1,0 +1,122 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+Usage:
+  nixos-switch-tag --host <flake-host> [--repo <path>] [--tag-prefix <p>] [--force-tag]
+
+Example:
+  ./scripts/nixos-switch-tag --host nixos-thinkpad
+  ./scripts/nixos-switch-tag --host nixos-thinkpad --tag-prefix nixos
+
+What it does:
+  1) Refuses to run if git tree is dirty (including untracked files)
+  2) Builds the system closure for the host, then switches to it
+  3) Tags the current commit with the new generation number (per host)
+
+Tag format:
+  <tag-prefix>/<host>/gen-<N>
+EOF
+}
+
+REPO="."
+HOST=""
+TAG_PREFIX="nixos"
+FORCE_TAG=0
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --repo) REPO="$2"; shift 2;;
+    --host) HOST="$2"; shift 2;;
+    --tag-prefix) TAG_PREFIX="$2"; shift 2;;
+    --force-tag) FORCE_TAG=1; shift;;
+    -h|--help) usage; exit 0;;
+    *) echo "Unknown arg: $1" >&2; usage; exit 2;;
+  esac
+done
+
+if [[ -z "$HOST" ]]; then
+  echo "Error: --host is required" >&2
+  usage
+  exit 2
+fi
+
+cd "$REPO"
+
+# ---- 1) Ensure clean git tree ----
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  echo "Error: not inside a git repo: $REPO" >&2
+  exit 1
+fi
+
+if ! git diff --quiet; then
+  echo "Error: you have unstaged changes. Commit or stash first." >&2
+  exit 1
+fi
+
+if ! git diff --cached --quiet; then
+  echo "Error: you have staged but uncommitted changes. Commit first." >&2
+  exit 1
+fi
+
+if [[ -n "$(git ls-files --others --exclude-standard)" ]]; then
+  echo "Error: you have untracked files. Add/commit them or clean them first." >&2
+  exit 1
+fi
+
+COMMIT="$(git rev-parse HEAD)"
+echo "Repo clean at commit: $COMMIT"
+
+# ---- 2) Build then switch ----
+echo "Building system for host: $HOST"
+nix build ".#nixosConfigurations.${HOST}.config.system.build.toplevel"
+
+echo "Switching to new configuration..."
+sudo nixos-rebuild switch --flake ".#${HOST}"
+
+# ---- 3) Get current generation number ----
+# We prefer parsing list-generations because it is stable and local.
+GEN_LINE="$(nixos-rebuild list-generations --profile /nix/var/nix/profiles/system | awk '/current/ {print; exit}')"
+if [[ -z "$GEN_LINE" ]]; then
+  echo "Error: could not determine current generation from nixos-rebuild list-generations" >&2
+  exit 1
+fi
+
+# Typically: "123   2026-02-22 10:34:56   (current)"
+GEN_NUM="$(echo "$GEN_LINE" | awk '{print $1}')"
+if ! [[ "$GEN_NUM" =~ ^[0-9]+$ ]]; then
+  echo "Error: parsed generation is not numeric: '$GEN_NUM' from line: $GEN_LINE" >&2
+  exit 1
+fi
+
+TAG="${TAG_PREFIX}/${HOST}/gen-${GEN_NUM}"
+
+# Ensure we're still on the same commit we built from
+COMMIT_AFTER="$(git rev-parse HEAD)"
+if [[ "$COMMIT_AFTER" != "$COMMIT" ]]; then
+  echo "Error: HEAD changed during run ($COMMIT -> $COMMIT_AFTER). Refusing to tag." >&2
+  exit 1
+fi
+
+# Create tag
+if git rev-parse -q --verify "refs/tags/${TAG}" >/dev/null; then
+  if [[ "$FORCE_TAG" -eq 1 ]]; then
+    echo "Tag already exists; replacing because --force-tag was provided: $TAG"
+    git tag -d "$TAG" >/dev/null
+  else
+    echo "Error: tag already exists: $TAG (use --force-tag to replace)" >&2
+    exit 1
+  fi
+fi
+
+echo "Tagging commit $COMMIT with $TAG"
+git tag -a "$TAG" -m "NixOS generation ${GEN_NUM} for host ${HOST}"
+
+echo "Done."
+echo "  Commit: $COMMIT"
+echo "  Gen:    $GEN_NUM"
+echo "  Tag:    $TAG"
+echo ""
+echo "Next: push the tag with:"
+echo "  git push --follow-tags"
