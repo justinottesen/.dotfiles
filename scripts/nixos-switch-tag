@@ -20,6 +20,7 @@ Tag format:
 EOF
 }
 
+FLAKE_DIR="nixos" # Relative to the repo root
 REPO="."
 HOST=""
 TAG_PREFIX="nixos"
@@ -70,10 +71,10 @@ echo "Repo clean at commit: $COMMIT"
 
 # ---- 2) Build then switch ----
 echo "Building system for host: $HOST"
-nix build ".#nixosConfigurations.${HOST}.config.system.build.toplevel"
+nix build "./${FLAKE_DIR}#nixosConfigurations.${HOST}.config.system.build.toplevel"
 
 echo "Switching to new configuration..."
-sudo nixos-rebuild switch --flake ".#${HOST}"
+sudo nixos-rebuild switch --flake "./${FLAKE_DIR}#${HOST}"
 
 # ---- 3) Get current generation number ----
 # We prefer parsing list-generations because it is stable and local.
