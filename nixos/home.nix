@@ -1,32 +1,28 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
-{
+let
+  repo = "${config.home.homeDirectory}/nixos-dotfiles";
+  dotfiles = "dotfiles";
+in {
   home = {
     username = "justin";
     homeDirectory = "/home/justin";
+    packages = with pkgs; [
+      git
+      neovim
+      stow
+    ];
   };
 
-  programs = {
-    git = {
-      enable = true;
-      settings = {
-        user = {
-          name = "Justin Ottesen";
-          email = "justinottesen@gmail.com";
-        };
-        init.defaultBranch = "main";
-        push.autoSetupRemote = true;
-      };
-    };
-    nixvim = {
-      enable = true;
-      viAlias = true;
-      vimAlias = true;
-      colorschemes.catppuccin.enable = true;
-      plugins.lualine.enable = true;
-    };
-    ripgrep.enable = true;
-  };
+  home.activation.stowDotfiles = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    set -euo pipefail
+
+    ${pkgs.stow}/bin/stow \
+      --dir "${toString repo}" \
+      --target "$HOME" \
+      --restow \
+      "${toString dotfiles}"
+  '';
 
   # DO NOT CHANGE - see configuration.nix
   home.stateVersion = "25.11";
