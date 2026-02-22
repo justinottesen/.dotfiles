@@ -1,1 +1,2 @@
-require("config.options")
+require("jottesen.options")
+require("jottesen.lazy")
