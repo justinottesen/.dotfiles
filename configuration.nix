@@ -23,9 +23,11 @@
   time.timeZone = "America/New_York";
 
   # Enable xserver & Nvidia drivers
-  services.xserver = {
-    enable = true;
-    videoDrivers = [ "nvidia" ];
+  services = {
+    xserver = {
+      enable = true;
+      videoDrivers = [ "nvidia" ];
+    };
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
   };
@@ -36,20 +38,17 @@
     open = false;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
+    # On a laptop with both Intel and Nvidia (PRIME)
+    prime = {
+      sync.enable = true;
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PIC:1:0:0";
+    };
   };
 
   nixpkgs.config.allowUnfree = true;
 
-  # On a laptop with both Intel and Nvidia (PRIME)
-  hardware.nvidia.prime = {
-    sync.enable = true;
-    intelBusId = "PCI:0:2:0";
-    nvidiaBusId = "PIC:1:0:0";
-  };
-
-  hardware.opengl = {
-    enable = true;
-  };
+  hardware.graphics.enable = true;
 
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";

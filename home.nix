@@ -6,8 +6,12 @@
 
   programs.git = {
     enable = true;
-    userName = "Justin Ottesen";
-    userEmail = "justinottesen@gmail.com";
+    settings = {
+      user = {
+        name = "Justin Ottesen";
+        email = "justinottesen@gmail.com";
+      };
+    };
   };
 
   # DO NOT CHANGE - see configuration.nix
