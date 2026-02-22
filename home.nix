@@ -1,7 +1,6 @@
 { config, pkgs, ... }:
 
 {
-
   home = {
     username = "justin";
     homeDirectory = "/home/justin";
@@ -24,6 +23,10 @@
       viAlias = true;
       vimAlias = true;
     };
+    nixvim = {
+      enable = true;
+    };
+    ripgrep.enable = true;
   };
 
   # DO NOT CHANGE - see configuration.nix
