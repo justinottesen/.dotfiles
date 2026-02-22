@@ -18,11 +18,10 @@ in {
 
   # We still use nixos for the packages we install for reproducibility
   home.packages = with pkgs; [
-      git
-      neovim
-      stow
-    ];
-  };
+    git
+    neovim
+    stow
+  ];
   
   # DO NOT CHANGE - see configuration.nix
   home.stateVersion = "25.11";
