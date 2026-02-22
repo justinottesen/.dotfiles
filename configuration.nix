@@ -14,6 +14,20 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # Make the boot default the newest
+  systemd.services.clear-systemd-boot-default = {
+    description = "Clear systemd-boot EFI default so newest NixOS generation is default";
+    wantedBy = [ "multi-user.target" ];
+
+    unitConfig.RequiresMountsFor = [ "/boot" ];
+    after = [ "local-fs.target" ];
+
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.systemd}/bin/bootctl set-default \"\"";
+    };
+  };
+
   networking.hostName = "nixos-thinkpad";
 
   # Configure network connections interactively with nmcli or nmtui.
