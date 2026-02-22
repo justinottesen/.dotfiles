@@ -19,6 +19,12 @@
     nixosConfigurations.nixos-thinkpad = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
+        ({ ... }: {
+          system.configurationRevision =
+	    if self ? rev then builtins.substring 0 20 self.rev
+	    else if self ? dirtyRev then "dirty-" + builtins.substring 0 20 self.dirtyRev
+	    else "dirty";
+	})
         ./configuration.nix
         home-manager.nixosModules.home-manager {
           home-manager = {
