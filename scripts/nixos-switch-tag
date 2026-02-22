@@ -77,17 +77,17 @@ echo "Switching to new configuration..."
 sudo nixos-rebuild switch --flake "./${FLAKE_DIR}#${HOST}"
 
 # ---- 3) Get current generation number ----
-# We prefer parsing list-generations because it is stable and local.
-GEN_LINE="$(nixos-rebuild list-generations | awk '/current/ {print; exit}')"
-if [[ -z "$GEN_LINE" ]]; then
-  echo "Error: could not determine current generation from nixos-rebuild list-generations" >&2
+PROFILE=/nix/var/nix/profiles/system
+TARGET="$(readlink "$PROFILE")"
+GEN_NUM="$(sed -n 's/^system-\([0-9]\+\)-link$/\1/p' <<< "$TARGET")"
+
+if [[ -z "$GEN_NUM" ]]; then
+  echo "Error: failed to parse generation from $PROFILE -> $TARGET" >&2
   exit 1
 fi
 
-# Typically: "123   2026-02-22 10:34:56   (current)"
-GEN_NUM="$(echo "$GEN_LINE" | awk '{print $1}')"
 if ! [[ "$GEN_NUM" =~ ^[0-9]+$ ]]; then
-  echo "Error: parsed generation is not numeric: '$GEN_NUM' from line: $GEN_LINE" >&2
+  echo "Error: parsed generation is not numeric: '$GEN_NUM'" >&2
   exit 1
 fi
 
