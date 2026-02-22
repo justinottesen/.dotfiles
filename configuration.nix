@@ -22,23 +22,34 @@
   # Set your time zone.
   time.timeZone = "America/New_York";
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  # Enable xserver & Nvidia drivers
+  services.xserver = {
+    enable = true;
+    videoDrivers = [ "nvidia" ];
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
+  };
 
-  # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkb.options in tty.
-  # };
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = true;
+    open = false;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
 
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
+  nixpkgs.config.allowUnfree = true;
 
+  # On a laptop with both Intel and Nvidia (PRIME)
+  hardware.nvidia.prime = {
+    sync.enable = true;
+    intelBusId = "PCI:0:2:0";
+    nvidiaBusId = "PIC:1:0:0";
+  };
 
-  
+  hardware.opengl = {
+    enable = true;
+  };
 
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
