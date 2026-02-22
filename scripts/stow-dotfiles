@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Resolve repo root as: parent of the directory containing this script
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+REPO_DIR="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
+
+# Sanity check expected layout
+if [[ ! -d "${REPO_DIR}/dotfiles" ]]; then
+  echo "ERROR: expected ${REPO_DIR}/dotfiles to exist" >&2
+  exit 1
+fi
+
+# Allow caller to override; otherwise use PATH lookup for "stow"
+#
+# This is needed because NixOS installs things in weird places, and systemd
+# boot doesn't have access to the user PATH. Most of the time this isn't
+# necessary.
+ : "${STOW_BIN:=stow}"
+
+exec "${STOW_BIN}" --dir "${REPO_DIR}" --target "${HOME}" --restow dotfiles
