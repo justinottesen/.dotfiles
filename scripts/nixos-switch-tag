@@ -78,7 +78,7 @@ sudo nixos-rebuild switch --flake "./${FLAKE_DIR}#${HOST}"
 
 # ---- 3) Get current generation number ----
 # We prefer parsing list-generations because it is stable and local.
-GEN_LINE="$(nixos-rebuild list-generations --profile /nix/var/nix/profiles/system | awk '/current/ {print; exit}')"
+GEN_LINE="$(nixos-rebuild list-generations | awk '/current/ {print; exit}')"
 if [[ -z "$GEN_LINE" ]]; then
   echo "Error: could not determine current generation from nixos-rebuild list-generations" >&2
   exit 1
