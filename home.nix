@@ -18,13 +18,12 @@
         push.autoSetupRemote = true;
       };
     };
-    neovim = {
+    nixvim = {
       enable = true;
       viAlias = true;
       vimAlias = true;
-    };
-    nixvim = {
-      enable = true;
+      colorschemes.catppuccin.enable = true;
+      plugins.lualine.enable = true;
     };
     ripgrep.enable = true;
   };
