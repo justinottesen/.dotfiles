@@ -20,6 +20,19 @@ Tag format:
 EOF
 }
 
+PROFILE=/nix/var/nix/profiles/system
+
+get_generation() {
+  local target
+  target="$(readlink "$PROFILE")"
+  if [[ "$target" =~ ^system-([0-9]+)-link$ ]]; then
+    echo "${BASH_REMATCH[1]}"
+    return 0
+  fi
+  echo "Error: unexpected system profile link: $PROFILE -> '$target'" >&2
+  return 1
+}
+
 FLAKE_DIR="nixos" # Relative to the repo root
 REPO="."
 HOST=""
@@ -70,6 +83,17 @@ COMMIT="$(git rev-parse HEAD)"
 echo "Repo clean at commit: $COMMIT"
 
 # ---- 2) Build then switch ----
+GEN_BEFORE="$(get_generation)"
+if [[ -z "$GEN_BEFORE" ]]; then
+  echo "Error: failed to parse previous generation from $PROFILE -> $TARGET" >&2
+  exit 1
+fi
+
+if ! [[ "$GEN_BEFORE" =~ ^[0-9]+$ ]]; then
+  echo "Error: parsed previous generation is not numeric: '$GEN_NUM'" >&2
+  exit 1
+fi
+
 echo "Building system for host: $HOST"
 nix build --no-link "./${FLAKE_DIR}#nixosConfigurations.${HOST}.config.system.build.toplevel"
 
@@ -77,10 +101,7 @@ echo "Switching to new configuration..."
 sudo nixos-rebuild switch --flake "./${FLAKE_DIR}#${HOST}"
 
 # ---- 3) Get current generation number ----
-PROFILE=/nix/var/nix/profiles/system
-TARGET="$(readlink "$PROFILE")"
-GEN_NUM="$(sed -n 's/^system-\([0-9]\+\)-link$/\1/p' <<< "$TARGET")"
-
+GEN_NUM="$(get_generation)"
 if [[ -z "$GEN_NUM" ]]; then
   echo "Error: failed to parse generation from $PROFILE -> $TARGET" >&2
   exit 1
@@ -89,6 +110,11 @@ fi
 if ! [[ "$GEN_NUM" =~ ^[0-9]+$ ]]; then
   echo "Error: parsed generation is not numeric: '$GEN_NUM'" >&2
   exit 1
+fi
+
+if [[ "$GEN_NUM" == "$GEN_BEFORE" ]]; then
+  echo "No new system generation produced (still $GEN_NUM). Skipping tag."
+  exit 0
 fi
 
 TAG="${TAG_PREFIX}/${HOST}/gen-${GEN_NUM}"
