@@ -21,6 +21,7 @@ in {
     git
     neovim
     stow
+    ripgrep
   ];
   
   # DO NOT CHANGE - see configuration.nix
