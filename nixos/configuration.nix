@@ -112,6 +112,9 @@
     vim
     wget
     git
+    python3
+    clang
+    gcc
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
