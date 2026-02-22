@@ -1,18 +1,28 @@
 { config, pkgs, ... }:
 
 {
-  home.username = "justin";
-  home.homeDirectory = "/home/justin";
 
-  programs.git = {
-    enable = true;
-    settings = {
-      user = {
-        name = "Justin Ottesen";
-        email = "justinottesen@gmail.com";
+  home = {
+    username = "justin";
+    homeDirectory = "/home/justin";
+  };
+
+  programs = {
+    git = {
+      enable = true;
+      settings = {
+        user = {
+          name = "Justin Ottesen";
+          email = "justinottesen@gmail.com";
+        };
+        init.defaultBranch = "main";
+        push.autoSetupRemote = true;
       };
-      init.defaultBranch = "main";
-      push.autoSetupRemote = true;
+    };
+    neovim = {
+      enable = true;
+      viAlias = true;
+      vimAlias = true;
     };
   };
 
