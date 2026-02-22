@@ -26,9 +26,15 @@ in {
 
   # We still use nixos for the packages we install for reproducibility
   home.packages = with pkgs; [
+    # Basic install & development requirements
     git
-    neovim
     stow
+    # gcc and clang are system packages
+
+    # Neovim & dependencies
+    neovim
+    lua5_1
+    luarocks
     ripgrep
   ];
   
