@@ -11,6 +11,8 @@
         name = "Justin Ottesen";
         email = "justinottesen@gmail.com";
       };
+      init.defaultBranch = "main";
+      push.autoSetupRemote = true;
     };
   };
 
