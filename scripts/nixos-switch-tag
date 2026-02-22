@@ -71,7 +71,7 @@ echo "Repo clean at commit: $COMMIT"
 
 # ---- 2) Build then switch ----
 echo "Building system for host: $HOST"
-nix build "./${FLAKE_DIR}#nixosConfigurations.${HOST}.config.system.build.toplevel"
+nix build --no-link "./${FLAKE_DIR}#nixosConfigurations.${HOST}.config.system.build.toplevel"
 
 echo "Switching to new configuration..."
 sudo nixos-rebuild switch --flake "./${FLAKE_DIR}#${HOST}"
