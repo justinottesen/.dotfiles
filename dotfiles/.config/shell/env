@@ -1,0 +1,26 @@
+# Add to PATH if not already present
+path_prepend() {
+  case ":$PATH:" in
+    *":$1:"*) ;;
+    *) PATH="$1:$PATH" ;;
+  esac
+}
+
+# Ensure PATH exists
+PATH=${PATH:-/usr/bin:/bin}
+
+# Add .local/bin to PATH
+path_prepend "$HOME/.local/bin"
+export PATH
+
+# Editor
+export VISUAL=nvim
+export EDITOR=$VISUAL
+
+# CMake
+export CMAKE_GENERATOR=Ninja
+export CMAKE_EXPORT_COMPILE_COMMANDS=ON
+
+# Toolchain
+export CC=clang
+export CXX=clang++
