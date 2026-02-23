@@ -3,6 +3,7 @@
 let
   repo = "${config.home.homeDirectory}/nixos-dotfiles";
 in {
+  # Base user info
   home = {
     username = "justin";
     homeDirectory = "/home/justin";
@@ -31,12 +32,18 @@ in {
     stow
     # gcc, clang and CMake are system packages
 
+    # Fonts
+    nerd-fonts.jetbrains-mono
+
     # Neovim & dependencies
     neovim
     lua5_1
     luarocks
     ripgrep
   ];
+
+  # Other config options
+  fonts.fontconfig.enable = true;
   
   # DO NOT CHANGE - see configuration.nix
   home.stateVersion = "25.11";
