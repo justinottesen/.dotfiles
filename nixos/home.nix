@@ -38,6 +38,7 @@ in {
 
     # Neovim & dependencies
     neovim
+    fd
     lua5_1
     luarocks
     ripgrep
