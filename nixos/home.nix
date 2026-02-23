@@ -30,6 +30,7 @@ in {
     # Basic install & development requirements
     git
     stow
+    gnumake
     # gcc, clang and CMake are system packages
 
     # Fonts
