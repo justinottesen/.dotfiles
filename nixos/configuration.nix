@@ -110,6 +110,7 @@
     wget
     git
     python3
+    cmake
     clang
     gcc
   ];

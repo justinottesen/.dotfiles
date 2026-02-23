@@ -29,7 +29,7 @@ in {
     # Basic install & development requirements
     git
     stow
-    # gcc and clang are system packages
+    # gcc, clang and CMake are system packages
 
     # Neovim & dependencies
     neovim
