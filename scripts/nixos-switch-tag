@@ -4,7 +4,7 @@ set -euo pipefail
 usage() {
   cat <<'EOF'
 Usage:
-  nixos-switch-tag --host <flake-host> [--repo <path>] [--tag-prefix <p>] [--force-tag]
+  nixos-switch-tag --host <flake-host> [--repo <path>] [--tag-prefix <p>] [--force-tag] [--skip-flake-lock]
 
 Example:
   ./scripts/nixos-switch-tag --host nixos-thinkpad
@@ -33,7 +33,9 @@ get_generation() {
   return 1
 }
 
+SKIP_FLAKE_LOCK=0
 FLAKE_DIR="nixos" # Relative to the repo root
+FLAKE_LOCK="${FLAKE_DIR}/flake.lock"
 REPO="."
 HOST=""
 TAG_PREFIX="nixos"
@@ -45,6 +47,7 @@ while [[ $# -gt 0 ]]; do
     --host) HOST="$2"; shift 2;;
     --tag-prefix) TAG_PREFIX="$2"; shift 2;;
     --force-tag) FORCE_TAG=1; shift;;
+    --skip-flake-lock) SKIP_FLAKE_LOCK=1; shift;;
     -h|--help) usage; exit 0;;
     *) echo "Unknown arg: $1" >&2; usage; exit 2;;
   esac
@@ -79,10 +82,22 @@ if [[ -n "$(git ls-files --others --exclude-standard)" ]]; then
   exit 1
 fi
 
+# ---- 2) Check for flake.lock updates ----
+
+if [[ ! "$SKIP_FLAKE_LOCK" -eq 1 ]]; then
+  nix flake update --flake "./${FLAKE_DIR}"
+  if ! git diff --quiet -- "${FLAKE_LOCK}" ; then
+    echo "flake.lock changed; committing it..."
+    git add "${FLAKE_LOCK}"
+    git commit -m "Update flake.lock (automatic)"
+  fi
+fi
+
+# ---- 3) Build then switch ----
+
 COMMIT="$(git rev-parse HEAD)"
 echo "Repo clean at commit: $COMMIT"
 
-# ---- 2) Build then switch ----
 GEN_BEFORE="$(get_generation)"
 if [[ -z "$GEN_BEFORE" ]]; then
   echo "Error: failed to parse previous generation from $PROFILE -> $TARGET" >&2
@@ -95,12 +110,12 @@ if ! [[ "$GEN_BEFORE" =~ ^[0-9]+$ ]]; then
 fi
 
 echo "Building system for host: $HOST"
-nix build --no-link "./${FLAKE_DIR}#nixosConfigurations.${HOST}.config.system.build.toplevel"
+nix build --no-link --no-update-lock-file "./${FLAKE_DIR}#nixosConfigurations.${HOST}.config.system.build.toplevel"
 
 echo "Switching to new configuration..."
-sudo nixos-rebuild switch --flake "./${FLAKE_DIR}#${HOST}"
+sudo nixos-rebuild switch --no-update-lock-file --flake "./${FLAKE_DIR}#${HOST}"
 
-# ---- 3) Get current generation number ----
+# ---- 4) Get current generation number ----
 GEN_NUM="$(get_generation)"
 if [[ -z "$GEN_NUM" ]]; then
   echo "Error: failed to parse generation from $PROFILE -> $TARGET" >&2
@@ -117,6 +132,7 @@ if [[ "$GEN_NUM" == "$GEN_BEFORE" ]]; then
   exit 0
 fi
 
+# ---- 5) Create the tag ----
 TAG="${TAG_PREFIX}/${HOST}/gen-${GEN_NUM}"
 
 # Ensure we're still on the same commit we built from
