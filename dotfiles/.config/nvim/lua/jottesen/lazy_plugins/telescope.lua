@@ -1,5 +1,6 @@
 return {
-    "nvim-telescope/telescope.nvim", version = "*",
+    "nvim-telescope/telescope.nvim",
+    version = "*",
     dependencies = {
         "nvim-lua/plenary.nvim",
         { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
@@ -19,12 +20,12 @@ return {
 
         -- Searches everything, all files
         vim.keymap.set("n", "<leader>se", function()
-                builtin.find_files {
-                    hidden = true,
-                    no_ignore = true,
-                    no_ignore_parent = true,
-                }
-            end, { desc = "[S]earch [E]verything" })
+            builtin.find_files {
+                hidden = true,
+                no_ignore = true,
+                no_ignore_parent = true,
+            }
+        end, { desc = "[S]earch [E]verything" })
 
         local most_finder = function()
             builtin.find_files {
@@ -41,14 +42,14 @@ return {
         vim.keymap.set("n", "<leader>sm", most_finder, { desc = "[S]earch [M]ost" })
 
         -- Search Files (expected default); respect .gitignore, fall back to most outside git repos
-         vim.keymap.set("n", "<leader>sf", function()
-                local ok = pcall(builtin.git_files, {
-                    show_untracked = true,
-                })
-                if not ok then
-                    most_finder()
-                end
-            end, { desc = "[S]earch [F]iles" })
+        vim.keymap.set("n", "<leader>sf", function()
+            local ok = pcall(builtin.git_files, {
+                show_untracked = true,
+            })
+            if not ok then
+                most_finder()
+            end
+        end, { desc = "[S]earch [F]iles" })
 
         vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
         vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
