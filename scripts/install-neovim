@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-#!/usr/bin/env bash
-set -euo pipefail
-
 usage() {
   cat <<'EOF'
 install-neovim [--tag <tag|stable>] [--path <bin_dir>] [--workdir <dir>] [--jobs <N>] [--force]
@@ -149,13 +146,17 @@ echo "==> Building (jobs=$JOBS)..."
 #   make install PREFIX=...
 # If generator Ninja is available, they still drive it via make.
 if [[ -n "$CMAKE_GENERATOR" ]]; then
-  sudo make CMAKE_BUILD_TYPE=Release CMAKE_GENERATOR="$CMAKE_GENERATOR" CMAKE_INSTALL_PREFIX="$PREFIX"
+  make -j"$JOBS" CMAKE_BUILD_TYPE=Release CMAKE_GENERATOR="$CMAKE_GENERATOR" CMAKE_INSTALL_PREFIX="$PREFIX"
 else
-  sudo make -j"$JOBS" CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX="$PREFIX"
+  make -j"$JOBS" CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX="$PREFIX"
 fi
 
 echo "==> Installing into PREFIX=$PREFIX ..."
-sudo make install CMAKE_INSTALL_PREFIX="$PREFIX"
+if [[ ! -w "$PREFIX" ]]; then
+  sudo make install CMAKE_INSTALL_PREFIX="$PREFIX"
+else
+  make install CMAKE_INSTALL_PREFIX="$PREFIX"
+fi
 
 if [[ -x "$BIN_DIR/nvim" ]]; then
   echo "==> Done: $BIN_DIR/nvim"
