@@ -42,6 +42,13 @@ in {
     lua5_1
     luarocks
     ripgrep
+
+    # Language Servers
+    lua-language-server
+    clang-tools
+
+    # Quality of life tools
+    tree
   ];
 
   # Other config options
