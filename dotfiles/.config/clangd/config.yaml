@@ -1,0 +1,21 @@
+CompileFlags:
+  Add: [-Wall, -Wextra, -Wpedantic, -Werror]
+
+Diagnostics:
+  ClangTidy:
+    Add: [
+      "bugprone-*",
+      "cert-*",
+      "clang-analyzer-*",
+      "concurrency-*",
+      "cppcoreguidelines-*",
+      "google-*",
+      "hicpp-*",
+      "misc-*",
+      "modernize-*",
+      "performance-*",
+      "readability-*",
+    ]
+    Remove: [
+      "google-readability-todo"
+    ]
