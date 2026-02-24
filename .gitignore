@@ -4,4 +4,4 @@
 # Optional untracked per-system dotfiles
 /dotfiles/.bash_profile-extra
 /dotfiles/.bashrc-extra
-/dotfiles/.config/nasuni
+/dotfiles/.config/git/config.nasuni
