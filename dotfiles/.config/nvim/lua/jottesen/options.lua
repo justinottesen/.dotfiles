@@ -22,6 +22,10 @@ vim.opt.undofile = true
 -- Searching settings
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- Use system clipboard for copy and paste
 vim.opt.clipboard = "unnamedplus"
+
+-- Visual settings
+vim.o.winborder = "rounded"
