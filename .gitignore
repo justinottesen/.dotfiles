@@ -1,2 +1,6 @@
 # Nix build artifacts
 /result
+
+# Optional untracked per-system dotfiles
+.bash_profile-extra
+.bashrc-extra
