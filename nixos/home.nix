@@ -31,8 +31,13 @@ in {
     git
     stow
     gnumake
+    gnutar
     ninja
     # gcc, clang and CMake are system packages
+
+    # Web
+    curl
+    wget
 
     # Fonts
     nerd-fonts.jetbrains-mono
@@ -42,6 +47,7 @@ in {
     fd
     lua5_1
     luarocks
+    tree-sitter
     ripgrep
 
     # Language Servers
