@@ -51,8 +51,9 @@ in {
     ripgrep
 
     # Language Servers
-    lua-language-server
+    bash-language-server
     clang-tools
+    lua-language-server
 
     # Quality of life tools
     tree

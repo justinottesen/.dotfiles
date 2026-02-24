@@ -39,5 +39,6 @@ return {
         -- Enable different LSPs
         vim.lsp.enable("lua_ls")
         vim.lsp.enable("clangd")
+        vim.lsp.enable("bashls")
     end,
 }
