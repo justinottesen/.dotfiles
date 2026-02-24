@@ -31,6 +31,7 @@ in {
     git
     stow
     gnumake
+    ninja
     # gcc, clang and CMake are system packages
 
     # Fonts
