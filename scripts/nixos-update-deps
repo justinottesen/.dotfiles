@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Resolve repo root as: parent of the directory containing this script
+SCRIPT_DIR="$(cd -- "$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")" && pwd)"
+REPO_DIR="$(cd -- "${SCRIPT_DIR}/.." && pwd)"
+
+# Sanity check expected layout
+if [[ ! -d "${REPO_DIR}/nixos" ]]; then
+  echo "ERROR: expected ${REPO_DIR}/nixos to exist" >&2
+  exit 1
+fi
+
+echo "${SCRIPT_DIR}"
+echo "${REPO_DIR}"
+
+nix flake update --flake "${REPO_DIR}/nixos"

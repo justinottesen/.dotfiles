@@ -33,7 +33,6 @@ get_generation() {
   return 1
 }
 
-SKIP_FLAKE_LOCK=0
 FLAKE_DIR="nixos" # Relative to the repo root
 FLAKE_LOCK="${FLAKE_DIR}/flake.lock"
 REPO="."
@@ -47,7 +46,6 @@ while [[ $# -gt 0 ]]; do
     --host) HOST="$2"; shift 2;;
     --tag-prefix) TAG_PREFIX="$2"; shift 2;;
     --force-tag) FORCE_TAG=1; shift;;
-    --skip-flake-lock) SKIP_FLAKE_LOCK=1; shift;;
     -h|--help) usage; exit 0;;
     *) echo "Unknown arg: $1" >&2; usage; exit 2;;
   esac
@@ -95,7 +93,7 @@ cp -a "./${FLAKE_DIR}/." "$tmp"
   nix flake update --flake . >/dev/null
 )
 
-if ! diff -q "./${FLAKE_DIR}/flake.lock" "$tmp/flake.lock" >/dev/null; then
+if ! diff -q "./${FLAKE_LOCK}" "$tmp/flake.lock" >/dev/null; then
   echo "Warning: Updates are available for existing flake inputs"
   echo "         Run: nix flake update --flake \"./${FLAKE_DIR}\""
 fi
@@ -107,7 +105,7 @@ echo "Repo clean at commit: $COMMIT"
 
 GEN_BEFORE="$(get_generation)"
 if [[ -z "$GEN_BEFORE" ]]; then
-  echo "Error: failed to parse previous generation from $PROFILE -> $TARGET" >&2
+  echo "Error: failed to parse previous generation from $PROFILE" >&2
   exit 1
 fi
 
@@ -125,7 +123,7 @@ sudo nixos-rebuild switch --no-update-lock-file --flake "./${FLAKE_DIR}#${HOST}"
 # ---- 4) Get current generation number ----
 GEN_NUM="$(get_generation)"
 if [[ -z "$GEN_NUM" ]]; then
-  echo "Error: failed to parse generation from $PROFILE -> $TARGET" >&2
+  echo "Error: failed to parse generation from $PROFILE" >&2
   exit 1
 fi
 
