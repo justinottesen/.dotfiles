@@ -1,0 +1,168 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+install-neovim [--tag <tag|stable>] [--path <bin_dir>] [--workdir <dir>] [--jobs <N>] [--force]
+
+Examples:
+  install-neovim
+  install-neovim --tag stable
+  install-neovim --tag v0.11.6
+  install-neovim --tag v0.11.6 --path ~/.local/bin
+
+Notes:
+  --path is a *bin directory*. Neovim installs via a PREFIX, so this script uses:
+    PREFIX = dirname(--path)
+  Meaning: --path ~/.local/bin -> PREFIX ~/.local
+EOF
+}
+
+TAG="stable"
+BIN_DIR="${HOME}/.local/bin"
+WORKDIR=""            # auto
+JOBS=""               # auto
+FORCE="0"
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --tag)
+      [[ $# -ge 2 ]] || { echo "error: --tag needs a value"; usage; exit 2; }
+      TAG="$2"; shift 2
+      ;;
+    --path)
+      [[ $# -ge 2 ]] || { echo "error: --path needs a value"; usage; exit 2; }
+      BIN_DIR="$2"; shift 2
+      ;;
+    --workdir)
+      [[ $# -ge 2 ]] || { echo "error: --workdir needs a value"; usage; exit 2; }
+      WORKDIR="$2"; shift 2
+      ;;
+    --jobs)
+      [[ $# -ge 2 ]] || { echo "error: --jobs needs a value"; usage; exit 2; }
+      JOBS="$2"; shift 2
+      ;;
+    --force)
+      FORCE="1"; shift
+      ;;
+    -h|--help)
+      usage; exit 0
+      ;;
+    *)
+      echo "error: unknown arg: $1"
+      usage
+      exit 2
+      ;;
+  esac
+done
+
+# Expand leading ~ ourselves (bash doesn't expand it inside variables consistently)
+if [[ "$BIN_DIR" == "~/"* ]]; then
+  BIN_DIR="${HOME}/${BIN_DIR#~/}"
+fi
+if [[ "$WORKDIR" == "~/"* ]]; then
+  WORKDIR="${HOME}/${WORKDIR#~/}"
+fi
+
+BIN_DIR="$(readlink -m "$BIN_DIR")"
+PREFIX="$(dirname "$BIN_DIR")"
+
+# Pick a workdir.
+if [[ -z "$WORKDIR" ]]; then
+  WORKDIR="$(mktemp -d)"
+  CLEANUP_WORKDIR="1"
+else
+  WORKDIR="$(readlink -m "$WORKDIR")"
+  CLEANUP_WORKDIR="0"
+  mkdir -p "$WORKDIR"
+fi
+
+cleanup() {
+  if [[ "${CLEANUP_WORKDIR:-0}" == "1" ]]; then
+    rm -rf "$WORKDIR" 2>/dev/null || true
+  fi
+}
+trap cleanup EXIT
+
+need_cmd() {
+  command -v "$1" >/dev/null 2>&1 || {
+    echo "error: missing required command: $1"
+    exit 1
+  }
+}
+
+need_cmd git
+need_cmd make
+need_cmd cmake
+
+# Ninja is optional; Neovim can build with make. But if it exists, it's usually faster.
+HAVE_NINJA="0"
+if command -v ninja >/dev/null 2>&1; then
+  HAVE_NINJA="1"
+fi
+
+REPO_DIR="${WORKDIR}/neovim"
+
+if [[ -d "$REPO_DIR/.git" ]]; then
+  if [[ "$FORCE" == "1" ]]; then
+    rm -rf "$REPO_DIR"
+  else
+    echo "error: repo already exists at $REPO_DIR (use --force or choose --workdir)"
+    exit 1
+  fi
+fi
+
+echo "==> Installing Neovim"
+echo "    tag:    $TAG"
+echo "    bin:    $BIN_DIR"
+echo "    prefix: $PREFIX"
+echo "    work:   $WORKDIR"
+
+mkdir -p "$BIN_DIR"
+mkdir -p "$PREFIX"
+
+echo "==> Cloning neovim..."
+git clone --branch "$TAG" --filter=blob:none https://github.com/neovim/neovim.git "$REPO_DIR" >/dev/null
+cd "$REPO_DIR"
+
+# Choose build system
+CMAKE_GENERATOR=""
+if [[ "$HAVE_NINJA" == "1" ]]; then
+  CMAKE_GENERATOR="Ninja"
+fi
+
+# Jobs
+if [[ -z "$JOBS" ]]; then
+  if command -v nproc >/dev/null 2>&1; then
+    JOBS="$(nproc)"
+  else
+    JOBS="4"
+  fi
+fi
+
+echo "==> Building (jobs=$JOBS)..."
+# Neovim's build supports:
+#   make CMAKE_BUILD_TYPE=RelWithDebInfo
+#   make install PREFIX=...
+# If generator Ninja is available, they still drive it via make.
+if [[ -n "$CMAKE_GENERATOR" ]]; then
+  sudo make CMAKE_BUILD_TYPE=Release CMAKE_GENERATOR="$CMAKE_GENERATOR" CMAKE_INSTALL_PREFIX="$PREFIX"
+else
+  sudo make -j"$JOBS" CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX="$PREFIX"
+fi
+
+echo "==> Installing into PREFIX=$PREFIX ..."
+sudo make install CMAKE_INSTALL_PREFIX="$PREFIX"
+
+if [[ -x "$BIN_DIR/nvim" ]]; then
+  echo "==> Done: $BIN_DIR/nvim"
+else
+  echo "warning: install finished but $BIN_DIR/nvim not found."
+  echo "         Check PREFIX layout at: $PREFIX"
+fi
+
+echo "==> Version:"
+"$BIN_DIR/nvim" --version | head -n 2 || true
