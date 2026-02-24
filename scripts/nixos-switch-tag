@@ -84,13 +84,20 @@ fi
 
 # ---- 2) Check for flake.lock updates ----
 
-if [[ ! "$SKIP_FLAKE_LOCK" -eq 1 ]]; then
-  nix flake update --flake "./${FLAKE_DIR}"
-  if ! git diff --quiet -- "${FLAKE_LOCK}" ; then
-    echo "flake.lock changed; committing it..."
-    git add "${FLAKE_LOCK}"
-    git commit -m "Update flake.lock (automatic)"
-  fi
+nix flake lock "./${FLAKE_DIR}" --commit-lock-file
+
+# Check for updates
+tmp="$(mktemp -d)"
+trap 'rm -rf "$tmp"' EXIT
+cp -a "./${FLAKE_DIR}/." "$tmp"
+(
+  cd "$tmp"
+  nix flake update --flake . >/dev/null
+)
+
+if ! diff -q "./${FLAKE_DIR}/flake.lock" "$tmp/flake.lock" >/dev/null; then
+  echo "Warning: Updates are available for existing flake inputs"
+  echo "         Run: nix flake update --flake \"./${FLAKE_DIR}\""
 fi
 
 # ---- 3) Build then switch ----
