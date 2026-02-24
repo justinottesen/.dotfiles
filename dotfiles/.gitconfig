@@ -1,9 +1,12 @@
 [init]
-	defaultBranch = main
+    defaultBranch = main
 [user]
-	email = justinottesen@gmail.com
-	name = Justin Ottesen
+    email = justinottesen@gmail.com
+    name = Justin Ottesen
 [push]
-	autoSetupRemote = true
+    autoSetupRemote = true
 [core]
-	editor = nvim
+    editor = nvim
+
+[includeIf "gitdir:~/nasuni/"]
+    path = ~/.config/git/config.nasuni

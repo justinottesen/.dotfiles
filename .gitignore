@@ -2,5 +2,6 @@
 /result
 
 # Optional untracked per-system dotfiles
-.bash_profile-extra
-.bashrc-extra
+/dotfiles/.bash_profile-extra
+/dotfiles/.bashrc-extra
+/dotfiles/.config/nasuni
