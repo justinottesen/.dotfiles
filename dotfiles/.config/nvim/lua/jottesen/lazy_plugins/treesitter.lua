@@ -8,6 +8,6 @@ return {
         })
 
         -- Install parsers (async). First run will download + compile.
-        require("nvim-treesitter").install({ "c", "cpp", "go", "lua", "nix" })
+        require("nvim-treesitter").install({ "c", "cpp", "cmake", "go", "lua", "nix" })
     end,
 }

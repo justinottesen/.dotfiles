@@ -54,6 +54,7 @@ in {
     bash-language-server
     clang-tools
     lua-language-server
+    cmake-language-server
 
     # Quality of life tools
     tree
