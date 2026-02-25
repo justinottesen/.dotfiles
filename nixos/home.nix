@@ -33,7 +33,7 @@ in {
     gnumake
     gnutar
     ninja
-    gtest
+    gtest.dev
     # gcc, clang and CMake are system packages
 
     # Web
