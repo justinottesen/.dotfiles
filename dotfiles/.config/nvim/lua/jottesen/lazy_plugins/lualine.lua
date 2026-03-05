@@ -3,7 +3,8 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
         options = {
-            globalstatus = true
+            globalstatus = true,
+            path = 1
         }
     }
 }
