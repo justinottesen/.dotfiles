@@ -8,55 +8,18 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ../../modules/base.nix
+      ../../modules/desktop-gnome.nix
+      ../../modules/systemd-boot.nix
     ];
-
-  # Use the systemd-boot EFI boot loader.
-  boot.loader = {
-    systemd-boot = {
-      enable = true;
-      configurationLimit = 5;
-    };
-    efi.canTouchEfiVariables = true;
-  };
-
-  # Make the boot default the newest
-  systemd.services.clear-systemd-boot-default = {
-    description = "Clear systemd-boot EFI default so newest NixOS generation is default";
-    wantedBy = [ "multi-user.target" ];
-
-    unitConfig.RequiresMountsFor = [ "/boot" ];
-    after = [ "local-fs.target" ];
-
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.systemd}/bin/bootctl set-default \"\"";
-    };
-  };
-
-  # Clean up old NixOS generations
-  nix.gc = {
-    automatic = true;
-    dates = "daily";
-    options = "--delete-older-than 7d";
-  };
 
   networking = {
     hostName = "nixos-thinkpad";
     networkmanager.enable = true;
   };
 
-  # Set your time zone.
-  time.timeZone = "America/New_York";
-
   # Enable xserver & Nvidia drivers
-  services = {
-    xserver = {
-      enable = true;
-      videoDrivers = [ "nvidia" ];
-    };
-    displayManager.gdm.enable = true;
-    desktopManager.gnome.enable = true;
-  };
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
     modesetting.enable = true;
@@ -68,7 +31,7 @@
     prime = {
       sync.enable = true;
       intelBusId = "PCI:0:2:0";
-      nvidiaBusId = "PIC:1:0:0";
+      nvidiaBusId = "PCI:1:0:0";
     };
   };
 
@@ -94,28 +57,7 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.libinput.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  security.sudo.wheelNeedsPassword = true;
-  users.users.justin = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ];
-  };
-
   # programs.firefox.enable = true;
-
-  # List packages installed in system profile.
-  # You can use https://search.nixos.org/ to find more packages (and options).
-  environment.systemPackages = with pkgs; [
-    vim
-    wget
-    git
-    python3
-    cmake
-    clang
-    gcc
-  ];
-
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -159,6 +101,5 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "25.11"; # Did you read the comment?
-
 }
 
