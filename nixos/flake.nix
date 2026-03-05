@@ -37,6 +37,7 @@
   in {
     nixosConfigurations = {
       nixos-thinkpad = mkHost "nixos-thinkpad";
+      nixos-desktop = mkHost "nixos-desktop";
     };
   };
 }
