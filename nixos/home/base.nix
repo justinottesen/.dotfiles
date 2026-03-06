@@ -36,12 +36,15 @@ in {
     gtest.dev
     # gcc, clang and CMake are system packages
 
-    # Web
+    # CLI Web access
     curl
     wget
 
     # Fonts
     nerd-fonts.jetbrains-mono
+
+    # Quality of life tools
+    tree
 
     # Neovim & dependencies
     neovim
@@ -57,8 +60,9 @@ in {
     lua-language-server
     cmake-language-server
 
-    # Quality of life tools
-    tree
+    # Web browsers
+    google-chrome
+    firefox
   ];
 
   # Other config options
