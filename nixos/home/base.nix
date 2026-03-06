@@ -63,6 +63,9 @@ in {
     # Web browsers
     google-chrome
     firefox
+
+    # AI tools
+    claude-code
   ];
 
   # Other config options
