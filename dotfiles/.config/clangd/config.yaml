@@ -19,3 +19,6 @@ Diagnostics:
     Remove: [
       "google-readability-todo"
     ]
+    CheckOptions:
+      readability-identifier-length.IgnoredVariableNames: '^_$'
+      readability-identifier-length.IgnoredParameterNames: '^_$'
