@@ -38,7 +38,7 @@ in {
     gtest.dev
     sqlite
     sqlite.dev
-    pkgconf
+    pkg-config
     tree
     claude-code
     gh
