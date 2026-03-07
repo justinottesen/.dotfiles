@@ -37,6 +37,7 @@ in {
     ninja
     gtest.dev
     sqlite.dev
+    pkgconf
     tree
     claude-code
     gh
