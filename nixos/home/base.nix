@@ -64,8 +64,10 @@ in {
     google-chrome
     firefox
 
-    # AI tools
+    # CLI code tools
     claude-code
+    gh
+    tmux
   ];
 
   # Other config options
