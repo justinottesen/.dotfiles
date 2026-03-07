@@ -20,6 +20,8 @@ export EDITOR=$VISUAL
 # CMake
 export CMAKE_GENERATOR=Ninja
 export CMAKE_EXPORT_COMPILE_COMMANDS=ON
+export CMAKE_C_COMPILER_LAUNCHER=ccache
+export CMAKE_CXX_COMPILER_LAUNCHER=ccache
 
 # Toolchain
 export CC=clang

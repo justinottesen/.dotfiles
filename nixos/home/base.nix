@@ -39,6 +39,7 @@ in {
     gnutar
 
     # Development packages
+    ccache
     ninja
     gtest.dev
     sqlite
