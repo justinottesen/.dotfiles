@@ -27,13 +27,20 @@ in {
 
   # We still use nixos for the packages we install for reproducibility
   home.packages = with pkgs; [
-    # Basic install & development requirements
+    # Basic install requirements
     git
     stow
     gnumake
     gnutar
+
+    # Development packages
     ninja
     gtest.dev
+    sqlite
+    tree
+    claude-code
+    gh
+    tmux
     # gcc, clang and CMake are system packages
 
     # CLI Web access
@@ -42,9 +49,6 @@ in {
 
     # Fonts
     nerd-fonts.jetbrains-mono
-
-    # Quality of life tools
-    tree
 
     # Neovim & dependencies
     neovim
@@ -63,11 +67,6 @@ in {
     # Web browsers
     google-chrome
     firefox
-
-    # CLI code tools
-    claude-code
-    gh
-    tmux
   ];
 
   # Other config options
