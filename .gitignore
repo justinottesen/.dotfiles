@@ -5,3 +5,4 @@
 /dotfiles/.bash_profile-extra
 /dotfiles/.bashrc-extra
 /dotfiles/.config/git/config.nasuni
+/dotfiles/.config/shell/nix-extra-env

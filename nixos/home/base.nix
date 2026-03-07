@@ -25,6 +25,11 @@ in {
     '';
   };
 
+  # However, some things are nix specific, we want those still
+  home.file.".config/shell/nix-extra-env".text = ''
+    export PKG_CONFIG_PATH="/etc/profiles/per-user/${config.home.username}/lib/pkgconfig";
+  '';
+
   # We still use nixos for the packages we install for reproducibility
   home.packages = with pkgs; [
     # Basic install requirements

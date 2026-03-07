@@ -24,3 +24,6 @@ export CMAKE_EXPORT_COMPILE_COMMANDS=ON
 # Toolchain
 export CC=clang
 export CXX=clang++
+
+# Extra nix-specific things to source if we are on nix
+[ -f "$HOME/.config/shell/nix-extra-env" ] && . "$HOME/.config/shell/nix-extra-env"
