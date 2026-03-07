@@ -36,6 +36,7 @@ in {
     # Development packages
     ninja
     gtest.dev
+    sqlite
     sqlite.dev
     pkgconf
     tree
