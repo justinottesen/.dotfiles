@@ -49,6 +49,7 @@ in {
     claude-code
     gh
     tmux
+    valgrind
     # gcc, clang and CMake are system packages
 
     # CLI Web access
