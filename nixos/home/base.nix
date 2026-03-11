@@ -80,6 +80,7 @@ in {
     # OS Dev
     qemu
     nasm
+    asm-lsp
   ];
 
   # Other config options
