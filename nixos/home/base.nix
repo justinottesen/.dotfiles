@@ -76,6 +76,10 @@ in {
     # Web browsers
     google-chrome
     firefox
+
+    # OS Dev
+    qemu
+    nasm
   ];
 
   # Other config options
