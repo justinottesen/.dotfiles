@@ -50,9 +50,13 @@ in {
     gh
     tmux
     valgrind
-    rustc
-    cargo
-    rustfmt
+    (pkgs.fenix.complete.withComponents [
+      "cargo"
+      "rustc"
+      "rust-src"
+      "rustfmt"
+      "clippy"
+    ])
     # gcc, clang and CMake are system packages
 
     # CLI Web access
@@ -75,8 +79,7 @@ in {
     clang-tools
     lua-language-server
     cmake-language-server
-    rust-analyzer
-    clippy
+    pkgs.fenix.complete.rust-analyzer
 
     # Web browsers
     google-chrome

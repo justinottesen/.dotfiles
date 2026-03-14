@@ -15,9 +15,15 @@
       url = "github:sadjow/claude-code-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Nightly Rust toolchains
+    fenix = {
+      url = "github:nix-community/fenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, claude-code, ... }:
+  outputs = { self, nixpkgs, home-manager, claude-code, fenix, ... }:
   let
     mkHost = hostName: nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
@@ -30,7 +36,7 @@
 	        else "dirty";
 
           # Set overlays for specific packages
-          nixpkgs.overlays = [ claude-code.overlays.default ];
+          nixpkgs.overlays = [ claude-code.overlays.default fenix.overlays.default ];
 	    })
 
         ./hosts/${hostName}/default.nix
