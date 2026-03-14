@@ -50,6 +50,9 @@ in {
     gh
     tmux
     valgrind
+    rustc
+    cargo
+    rustfmt
     # gcc, clang and CMake are system packages
 
     # CLI Web access
@@ -72,6 +75,8 @@ in {
     clang-tools
     lua-language-server
     cmake-language-server
+    rust-analyzer
+    clippy
 
     # Web browsers
     google-chrome

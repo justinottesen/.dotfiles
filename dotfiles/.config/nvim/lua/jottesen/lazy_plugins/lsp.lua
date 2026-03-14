@@ -42,5 +42,6 @@ return {
         vim.lsp.enable("cmake")
         vim.lsp.enable("bashls")
         vim.lsp.enable("asm-lsp")
+        vim.lsp.enable("rust-analyzer")
     end,
 }
