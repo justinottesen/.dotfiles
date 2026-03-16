@@ -80,6 +80,7 @@ in {
     lua-language-server
     cmake-language-server
     pkgs.fenix.complete.rust-analyzer
+    pyright
 
     # Web browsers
     google-chrome

@@ -41,7 +41,7 @@ return {
         vim.lsp.enable("clangd")
         vim.lsp.enable("cmake")
         vim.lsp.enable("bashls")
-        vim.lsp.enable("asm-lsp")
-        vim.lsp.enable("rust-analyzer")
+        vim.lsp.enable("rust_analyzer")
+        vim.lsp.enable("pyright")
     end,
 }
