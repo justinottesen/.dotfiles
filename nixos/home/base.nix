@@ -37,6 +37,7 @@ in {
     stow
     gnumake
     gnutar
+    starship
 
     # Development packages
     ccache

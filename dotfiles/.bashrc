@@ -6,3 +6,6 @@
 
 # Create a .bashrc-extra to have untracked machine specific options
 [ -f "$HOME/.bashrc-extra" ] && . "$HOME/.bashrc-extra"
+
+# Prompt
+command -v starship &>/dev/null && eval "$(starship init bash)"
