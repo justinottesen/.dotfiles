@@ -29,3 +29,9 @@ export CXX=clang++
 
 # Extra nix-specific things to source if we are on nix
 [ -f "$HOME/.config/shell/nix-extra-env" ] && . "$HOME/.config/shell/nix-extra-env"
+
+# Prompt
+if command -v starship &>/dev/null; then
+    [ -n "$BASH_VERSION" ] && eval "$(starship init bash)"
+    [ -n "$ZSH_VERSION" ]  && eval "$(starship init zsh)"
+fi
