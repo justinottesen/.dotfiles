@@ -91,6 +91,9 @@ in {
     qemu
     nasm
     asm-lsp
+
+    # Fun
+    lunar-client
   ];
 
   # Other config options
