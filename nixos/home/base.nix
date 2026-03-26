@@ -51,7 +51,7 @@ in {
     gh
     tmux
     valgrind
-    gcc                    # gcov (NixOS cc-wrapper doesn't expose gcov from system packages)
+    (writeShellScriptBin "gcov" "exec ${gcc.cc}/bin/gcov \"$@\"")  # gcov (cc-wrapper doesn't expose it)
     lcov                   # lcov + genhtml for coverage reports
     llvmPackages.llvm      # llvm-cov for clang coverage
     (pkgs.fenix.complete.withComponents [
