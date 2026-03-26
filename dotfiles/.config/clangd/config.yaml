@@ -22,3 +22,5 @@ Diagnostics:
       "*-cognitive-complexity",
       "*-magic-numbers"
     ]
+    CheckOptions:
+      performance-unnecessary-value-param.AllowedTypes: "std::stop_token"

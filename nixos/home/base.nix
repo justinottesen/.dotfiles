@@ -43,6 +43,8 @@ in {
     ccache
     ninja
     gtest.dev
+    openssl
+    openssl.dev
     sqlite
     sqlite.dev
     pkg-config
