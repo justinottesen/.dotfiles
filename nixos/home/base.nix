@@ -51,6 +51,9 @@ in {
     gh
     tmux
     valgrind
+    gcc                    # gcov (NixOS cc-wrapper doesn't expose gcov from system packages)
+    lcov                   # lcov + genhtml for coverage reports
+    llvmPackages.llvm      # llvm-cov for clang coverage
     (pkgs.fenix.complete.withComponents [
       "cargo"
       "rustc"
@@ -58,7 +61,7 @@ in {
       "rustfmt"
       "clippy"
     ])
-    # gcc, clang and CMake are system packages
+    # clang and CMake are system packages
 
     # CLI Web access
     curl
