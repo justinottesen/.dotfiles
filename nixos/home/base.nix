@@ -63,7 +63,7 @@ in {
       "rustfmt"
       "clippy"
     ])
-    # clang and CMake are system packages
+    nodejs
 
     # CLI Web access
     curl
