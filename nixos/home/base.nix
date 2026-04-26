@@ -97,6 +97,9 @@ in {
     nasm
     asm-lsp
 
+    # Tools
+    obsidian
+
     # Fun
     lunar-client
   ];
