@@ -12,8 +12,8 @@ PATH=${PATH:-/usr/bin:/bin}
 # Add .local/bin to PATH
 path_prepend "$HOME/.local/bin"
 
-# Add .cargo/bin to PATH
-path_prepend "$HOME/.cargo/bin"
+# Source rust env
+. "$HOME/.cargo/env"
 
 export PATH
 
