@@ -13,7 +13,7 @@ PATH=${PATH:-/usr/bin:/bin}
 path_prepend "$HOME/.local/bin"
 
 # Source rust env
-. "$HOME/.cargo/env"
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
 export PATH
 
