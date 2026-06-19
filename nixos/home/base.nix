@@ -106,8 +106,6 @@ in {
     lunar-client
   ];
 
-  programs.nix-ld.enable = true;
-
   # Other config options
   fonts.fontconfig.enable = true;
   
