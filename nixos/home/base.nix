@@ -80,6 +80,8 @@ in {
     tree-sitter
     ripgrep
 
+    vscode
+
     # Language Servers
     bash-language-server
     clang-tools
