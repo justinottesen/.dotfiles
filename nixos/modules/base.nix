@@ -15,8 +15,10 @@
   security.sudo.wheelNeedsPassword = true;
   users.users.justin = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "docker" ];
   };
+
+  virtualisation.docker.enable = true;
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
