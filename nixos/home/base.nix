@@ -99,6 +99,9 @@ in {
     nasm
     asm-lsp
 
+    # LaTeX
+    texliveFull
+
     # Tools
     obsidian
 
