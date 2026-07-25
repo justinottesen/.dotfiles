@@ -20,6 +20,8 @@
 
   boot.kernelPackages = pkgs.linuxPackages_6_18;
 
+  boot.kernelParams = [ "fuse.enable_uring=1" ];
+
   # Enable xserver & Nvidia drivers
   services.xserver.videoDrivers = [ "nvidia" ];
 
